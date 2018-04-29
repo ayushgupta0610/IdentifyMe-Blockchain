@@ -4,6 +4,8 @@ import { Layout } from '../components/Layout';
 import { Link } from '../routes';
 import contract from '../ethereum/MagicIDContract';
 
+
+// Work under progress. This might/will break the UI.
 class RegisterIdentity extends Component{
 
   state = {
