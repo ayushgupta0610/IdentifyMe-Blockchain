@@ -23,8 +23,7 @@ contract MagicIDContract{
     mapping (bytes32 => address) uin_UserAddress;
     mapping (bytes32 => mapping(bytes32 => IDInstance)) uin_AgencyID_IDInstance;
     /* event IDAccessed(address from, MagicIDStruct whichID); */
-    // event newOraclizeQuery(string description);
-    // event Revoke(bytes32 oraclizeID, string uin, string agencyID);
+
 
     // Changed IDInstance
     struct IDInstance {
@@ -423,7 +422,8 @@ contract MagicIDContract{
 
     // Code here. Who can set isActive to false? contractOwner? Resorting with contractOwner for now.
     function setAgencyAccess(string _agency_id) isContractOwner returns (bool setAgencyAccessStatus) {
-
+      address accessAgency = AccessAgencyID_AccessAgencyAddress[stringToBytes32(_agency_id)];
+      address_AccessAgencyStruct[accessAgency].isActive = false;
       return true;
     }
 

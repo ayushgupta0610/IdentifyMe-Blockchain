@@ -2,43 +2,60 @@ import React, {Component} from 'react';
 import { Card, Button } from 'semantic-ui-react';
 import { Layout } from '../components/Layout';
 import { Link } from '../routes';
+import contract from '../ethereum/MagicIDContract';
 
 class RegisterIdentity extends Component{
+
+  state = {
+      loading: '',
+      errorMessage: ''
+  };
+
+  onSubmit = async (event) => {
+    event.preventDefault();
+
+    this.setState({loading: true, errorMessage: ''});
+
+    try {
+       const accounts = await web3.eth.getAccounts();
+
+       await contract.methods.createMagicID(description, web3.utils.toWei(value, 'ether'), recipient).send({ from: accounts[0] });
+       Router.pushRoute(`/index`);
+    } catch (err) {
+        this.setState({errorMessage: err.message});
+    }
+    this.setState({loading:false});
+  }
 
   render(){
       return(
         <div>
-        <Form>
-            <Form.Group widths='equal'>
-              <Form.Input fluid label='Unique Identitification Number' placeholder='UIN' />
-              <Form.Input fluid label='Name' placeholder='Enter your name' />
-              <Form.Input fluid label='Gender' placeholder='Enter your gender' />
-              <Form.Input fluid label='Date of birth' placeholder='Enter your date of birth' />
-              <Form.Input fluid label='Parent Name' placeholder="Enter your parent's name" />
-              <Form.Input fluid label='Name' placeholder='Enter your name' />
-
-
-              <Form.Select fluid label='Gender' options={options} placeholder='Enter your gender' />
-            </Form.Group>
-            <Form.Group inline widths='equal'>
-              <label>Left Hand</label>
-              <Form.Input fluid label='Left Finger1' placeholder='LFinger1 Description' />
-              <Form.Input fluid label='Left Finger2' placeholder='LFinger2 Description' />
-              <Form.Input fluid label='Left Finger3' placeholder='LFinger3 Description' />
-              <Form.Input fluid label='Left Finger4' placeholder='LFinger4 Description' />
-              <Form.Input fluid label='Left Finger5' placeholder='LFinger5 Description' />
-            </Form.Group>
-            <Form.Group inline widths='equal'>
-              <label>Right Hand</label>
-              <Form.Input fluid label='Right Finger1' placeholder='RFinger1 Description' />
-              <Form.Input fluid label='Right Finger2' placeholder='RFinger2 Description' />
-              <Form.Input fluid label='Right Finger3' placeholder='RFinger3 Description' />
-              <Form.Input fluid label='Right Finger4' placeholder='RFinger4 Description' />
-              <Form.Input fluid label='Right Finger5' placeholder='RFinger5 Description' />
-            </Form.Group>
-            <Form.TextArea label='About' placeholder='Tell us more about you...' />
-            <Form.Button>Submit</Form.Button>
-          </Form>
+        <h3>Create a Request</h3>
+        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+        <Form.Field>
+          <label>Description</label>
+          <Input
+            value={this.state.uin}
+            onChange={event => this.setState({ uin: event.target.value})}
+           />
+        </Form.Field>
+        <Form.Field>
+          <label>Value in Ether (Should not be more than the amount contributed by the investors)</label>
+          <Input
+          value={this.state.value}
+          onChange={event => this.setState({ name: event.target.value})}
+           />
+        </Form.Field>
+        <Form.Field>
+          <label>Recipient</label>
+          <Input
+            value={this.state.recipient}
+            onChange={event => this.setState({ recipient: event.target.value})}
+          />
+        </Form.Field>
+        <Message error header="Oops!" content={this.state.errorMessage} />
+        <Button loading={this.state.loading} primary>Create!</Button>
+      </Form>
         </div>
       );
   }
