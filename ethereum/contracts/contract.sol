@@ -105,77 +105,71 @@ contract MagicIDContract{
     function createMagicID(string _bg_uin, string[] _personal) returns (bool){
         bytes32 uin = stringToBytes32(_bg_uin);
         uin_UserAddress[uin] = msg.sender;
-        bytes32[] personal;
-        bytes32[] features1;
-        bytes32[] features2;
-        bytes32[] features3;
-        for(uint8 i=0; i<7; i++){
-          personal.push(stringToBytes32(_personal[i]));
-        }
-        for(uint8 j=7; j<10; j++){
-          features1.push(stringToBytes32(_personal[j]));
-        }
-        for(uint8 k=10; k<15; k++){
-          features2.push(stringToBytes32(_personal[k]));
-        }
-        for(uint8 l=15; l<20; l++){
-          features3.push(stringToBytes32(_personal[l]));
-        }
-        // var magicID1 = createMagicID1(personal);
-        // var magicID2 = createMagicID2(features1);
-        // var magicID3 = createMagicID3(features2);
-        // var magicID4 = createMagicID4(features3);
-        MagicIDStruct memory magicID = MagicIDStruct(uin, createMagicID1(personal), createMagicID2(features1), createMagicID3(features2), createMagicID4(features3));
+        var magicID1 = createMagicID1(_personal);
+        var magicID2 = createMagicID2(_personal);
+        var magicID3 = createMagicID3(_personal);
+        var magicID4 = createMagicID4(_personal);
+        MagicIDStruct memory magicID = MagicIDStruct(uin, magicID1, magicID2, magicID3, magicID4);
         address_MagicIDStruct[msg.sender] = magicID;
         MagicIDArray.push(magicID);
         return true;
     }
 
-    function createMagicID1(
-        bytes32[] _personal
-        ) internal returns (MagicIDStruct1) {
+    function createMagicID1(string[] _personal) internal returns (MagicIDStruct1) {
+      bytes32[] features;
+      for(uint8 i=0; i<7; i++){
+        features.push(stringToBytes32(_personal[i]));
+      }
       MagicIDStruct1 ID;
-      ID.bg_name = _personal[0];
-      ID.bg_gender = _personal[1];
-      ID.bg_dob = _personal[2];
-      ID.bg_parentName = _personal[3];
-      ID.bg_address = _personal[4];
-      ID.bg_mobile = _personal[5];
-      ID.bg_email = _personal[6];
+      ID.bg_name = features[0];
+      ID.bg_gender = features[1];
+      ID.bg_dob = features[2];
+      ID.bg_parentName = features[3];
+      ID.bg_address = features[4];
+      ID.bg_mobile = features[5];
+      ID.bg_email = features[6];
       return ID;
     }
 
-    function createMagicID2(
-        bytes32[] _features
-        ) internal returns (MagicIDStruct2) {
+    function createMagicID2(string[] _personal) internal returns (MagicIDStruct2) {
+      bytes32[] features;
+      for(uint8 j=7; j<10; j++){
+        features.push(stringToBytes32(_personal[j]));
+      }
       MagicIDStruct2 ID;
-      ID.bm_iris_left = _features[0];
-      ID.bm_iris_right = _features[1];
-      ID.bm_face = _features[2];
+      ID.bm_iris_left = features[0];
+      ID.bm_iris_right = features[1];
+      ID.bm_face = features[2];
       return ID;
     }
 
-    function createMagicID3(
-        bytes32[] _features
-        ) internal returns (MagicIDStruct3) {
+    function createMagicID3(string[] _personal) internal returns (MagicIDStruct3) {
+      bytes32[] features;
+      for(uint8 k=10; k<15; k++){
+        features.push(stringToBytes32(_personal[k]));
+      }
       MagicIDStruct3 ID;
-      ID.bm_right_finger_1 = _features[0];
-      ID.bm_right_finger_2 = _features[1];
-      ID.bm_right_finger_3 = _features[2];
-      ID.bm_right_finger_4 = _features[3];
-      ID.bm_right_finger_5 = _features[4];
+      ID.bm_right_finger_1 = features[0];
+      ID.bm_right_finger_2 = features[1];
+      ID.bm_right_finger_3 = features[2];
+      ID.bm_right_finger_4 = features[3];
+      ID.bm_right_finger_5 = features[4];
       return ID;
     }
 
     function createMagicID4(
-        bytes32[] _features
+        string[] _personal
         ) internal returns (MagicIDStruct4) {
+      bytes32[] features;
+      for(uint8 l=15; l<20; l++){
+        features.push(stringToBytes32(_personal[l]));
+      }
       MagicIDStruct4 ID;
-      ID.bm_left_finger_1 = _features[0];
-      ID.bm_left_finger_2 = _features[1];
-      ID.bm_left_finger_3 = _features[2];
-      ID.bm_left_finger_4 = _features[3];
-      ID.bm_left_finger_5 = _features[4];
+      ID.bm_left_finger_1 = features[0];
+      ID.bm_left_finger_2 = features[1];
+      ID.bm_left_finger_3 = features[2];
+      ID.bm_left_finger_4 = features[3];
+      ID.bm_left_finger_5 = features[4];
       return ID;
     }
 
@@ -198,8 +192,7 @@ contract MagicIDContract{
       uin_AgencyID_IDInstance[my_uin][agency_id].location_fence = _location_fence;
 
       // This is to set the uin_AgencyID_IDInstance[my_uin][agency_id].exists = false after the time_fence.
-      /* oraclizeID = oraclize_query(_time_fence, "URL", "json(https://lottery-0610.herokuapp.com/revoke/", strConcat(bytes32ToString(my_uin), "/" , agency_id, ").[uin, agencyID]" )); */
-      /* oraclizeID = oraclize_query(_time_fence, "URL", strConcat("json(https://lottery-0610.herokuapp.com/revoke/", bytes32ToString(my_uin), "/" , _agency_id, ").[uin, agencyID]" )); */
+      /* oraclizeID = oraclize_query(_time_fence, "URL", "json(https://lottery-0610.herokuapp.com/revoke/", strConcat(bytes32ToString(my_uin), "/", agency_id, ").[uin, agencyID]")); */
       return  true;
     }
 
