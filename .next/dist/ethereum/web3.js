@@ -17,7 +17,7 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
   web3 = new _web2.default(window.web3.currentProvider);
 } else {
   //We are on the server *OR* the user is not running metamask
-  var provider = new _web2.default.providers.HttpProvider('https://rinkeby.infura.io/UzSHnNb7DCGhaZPXOKoD');
+  var provider = new _web2.default.providers.HttpProvider('https://kovan.infura.io/UzSHnNb7DCGhaZPXOKoD');
   web3 = new _web2.default(provider);
 }
 
