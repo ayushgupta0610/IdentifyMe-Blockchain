@@ -11,20 +11,20 @@ class Header extends Component{
     return (
      <div>
      <Menu pointing secondary>
-          <Link route="/index">
-          <Menu.Item as="a" to='/index' name='republicOfDecentraland' active={activeItem === 'index'} onClick={this.handleItemClick} />
+          <Link href="/index">
+          <Menu.Item name='republicOfDecentraland' active={activeItem === 'index'} onClick={this.handleItemClick} />
           </Link>
           <Menu.Menu position='right'>
-            <Link route="/MemberPortal">
-            <Menu.Item as="a" to='/MemberPortal' name='MemberPortal' active={activeItem === 'MemberPortal'} onClick={this.handleItemClick} />
+            <Link href="/MemberPortal">
+            <Menu.Item name='MemberPortal' active={activeItem === 'MemberPortal'} onClick={this.handleItemClick} />
             </Link>
           </Menu.Menu>
           <Menu.Menu>
-            <Link route="/AgencyPortal">
-            <Menu.Item as="a" to='/AgencyPortal' name='AgencyPortal' active={activeItem === 'AgencyPortal'} onClick={this.handleItemClick} />
+            <Link href="/AgencyPortal">
+            <Menu.Item name='AgencyPortal' active={activeItem === 'AgencyPortal'} onClick={this.handleItemClick} />
             </Link>
-          </Menu.Menu>
-        </Menu>
+         </Menu.Menu>
+      </Menu>
      </div>
     )
   }
