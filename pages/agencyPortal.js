@@ -50,7 +50,8 @@ class AgencyPortal extends Component{
     this.setState({getDetailsButton: true, getDetailsMessage: ''});
     try {
       const accounts = await web3.eth.getAccounts();
-      const user = await contract.methods.authID(web3.utils.fromAscii(this.state.userUIN)).call();
+      const userDetails = {};
+      let user = await contract.methods.authID(web3.utils.fromAscii(this.state.userUIN)).call();
     } catch(err){
         this.setState({ getDetailsMessage: err.message });
     }
@@ -151,6 +152,7 @@ class AgencyPortal extends Component{
           <h4>Get Member Details</h4>
             <Grid.Row>
             <Form onSubmit={this.getUserDetails} error={!!this.state.getDetailsMessage}>
+              <label>Enter the UIN of the member</label>
               <Input style={{ width: "40%" }}
                 value={this.state.userUIN}
                 onChange={event => this.setState({ time_fence: event.target.value})}
