@@ -10,20 +10,18 @@ class Header extends Component{
     const activeItem = this.props.activePage;
     return (
      <div>
-     <Menu pointing secondary>
-          <Link href="/index">
-          <Menu.Item name='republicOfDecentraland' active={activeItem === 'index'} onClick={this.handleItemClick} />
+        <Menu style={{marginTop: '10px'}}>
+        <Link route="/"><a className="item">Republic Of Decentraland</a></Link>
+
+        <Menu.Menu position="right">
+          <Link route="/MemberPortal">
+            <a className="item">Member Portal</a>
           </Link>
-          <Menu.Menu position='right'>
-            <Link href="/MemberPortal">
-            <Menu.Item name='MemberPortal' active={activeItem === 'MemberPortal'} onClick={this.handleItemClick} />
-            </Link>
-          </Menu.Menu>
-          <Menu.Menu>
-            <Link href="/AgencyPortal">
-            <Menu.Item name='AgencyPortal' active={activeItem === 'AgencyPortal'} onClick={this.handleItemClick} />
-            </Link>
-         </Menu.Menu>
+
+          <Link route="/AgencyPortal">
+          <a className="item">Agency Portal</a>
+          </Link>
+        </Menu.Menu>
       </Menu>
      </div>
     )
