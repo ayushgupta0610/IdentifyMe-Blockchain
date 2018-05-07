@@ -114,21 +114,21 @@ class AgencyPortal extends Component{
       }
       try {
         let bioRightFingers = await contract.methods.getBioRightFingers(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
-        this.state.userDetails+="Right Hand Finger1: " + bioRightFingers.right_finger_1 + "\n" +
-                                "Right Hand Finger2: " + bioRightFingers.right_finger_2 + "\n" +
-                                "Right Hand Finger3: " + bioRightFingers.right_finger_3 + "\n" +
-                                "Right Hand Finger4: " + bioRightFingers.right_finger_4 + "\n" +
-                                "Right Hand Finger5: " + bioRightFingers.right_finger_5 + "\n";
+        this.state.userDetails+="Right Hand Finger1: " + bioRightFingers.ret_right_finger_1 + "\n" +
+                                "Right Hand Finger2: " + bioRightFingers.ret_right_finger_2 + "\n" +
+                                "Right Hand Finger3: " + bioRightFingers.ret_right_finger_3 + "\n" +
+                                "Right Hand Finger4: " + bioRightFingers.ret_right_finger_4 + "\n" +
+                                "Right Hand Finger5: " + bioRightFingers.ret_right_finger_5 + "\n";
         } catch(err){
          this.setState({ getDetailsMessage: err.message });
        }
      try {
        let bioLeftFingers = await contract.methods.getBioLeftFingers(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
-       this.state.userDetails+="Left Hand Finger1: " + bioLeftFingers.left_finger_1 + "\n" +
-                                "Left Hand Finger2: " + bioLeftFingers.left_finger_2 + "\n" +
-                                "Left Hand Finger3: " + bioLeftFingers.left_finger_3 + "\n" +
-                                "Left Hand Finger4: " + bioLeftFingers.left_finger_4 + "\n" +
-                                "Left Hand Finger5: " + bioLeftFingers.left_finger_5 + "\n";
+       this.state.userDetails+="Left Hand Finger1: " + bioLeftFingers.ret_left_finger_1 + "\n" +
+                                "Left Hand Finger2: " + bioLeftFingers.ret_left_finger_2 + "\n" +
+                                "Left Hand Finger3: " + bioLeftFingers.ret_left_finger_3 + "\n" +
+                                "Left Hand Finger4: " + bioLeftFingers.ret_left_finger_4 + "\n" +
+                                "Left Hand Finger5: " + bioLeftFingers.ret_left_finger_5 + "\n";
        } catch(err){
         this.setState({ getDetailsMessage: err.message });
       }
