@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Card, Button, Form, Input, Message, Grid } from 'semantic-ui-react';
-import Layout from '../components/Layout';
-import { Link } from '../routes';
-import contract from '../ethereum/MagicIDContract';
-import web3 from '../ethereum/web3';
+import Layout from '../../components/Layout';
+import { Link } from '../../routes';
+import contract from '../../ethereum/MagicIDContract';
+import web3 from '../../ethereum/web3';
 import { BigNumber } from 'bignumber.js';
 
 // Work under progress. This might/will break the UI.
