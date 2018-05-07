@@ -48,13 +48,13 @@ class AgencyPortal extends Component{
 
   getUserDetails = async(event) => {
     event.preventDefault();
-    this.setState({getDetailsButton: true, getDetailsMessage: ''});
+    this.setState({getDetailsButton: true, userDetails: ''});
       const accounts = await web3.eth.getAccounts();
       // const { userDetails } = this.state;
       debugger;
       try {
         let uin = await contract.methods.getIDUIN(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
-        this.state.userDetails+="User's UIN: " + uin.ret_uin + "\n";
+        this.state.userDetails+="Unique Identity Number: " + uin.ret_uin + "\n";
         } catch(err){
          this.setState({ getDetailsMessage: err.message });
        }
@@ -134,9 +134,18 @@ class AgencyPortal extends Component{
       }
     console.log(this.state.userDetails);
     if(this.state.userDetails == ""){
-        this.setState({ userDetails: "You are not authorized to access ${this.state.userUIN}'s details." });
+        this.setState({ userDetails: `You are not authorized to access ${this.state.userUIN}'s details.` });
     }
     this.setState({getDetailsButton: false});
+  }
+
+  userDetailsDismiss = () => {
+    this.setState({ userDetails: "" });
+    // this.state.userDetails="";
+  }
+
+  submitDismiss = () => {
+    this.setState({ errorMessage: "" });
   }
 
   render(){
@@ -224,7 +233,7 @@ class AgencyPortal extends Component{
                 <Form.Radio label='False' value='false' checked={this.state.isAllowedBioLeftFingers == 'false'} onChange={(event, {value}) => { this.setState({ isAllowedBioLeftFingers: value})} } />
               </Form.Group>
 
-              <Message error header="Oops!" content={this.state.errorMessage} />
+              <Message error header="Oops!" hidden={this.state.errorMessage==""} onDismiss={this.submitDismiss} content={this.state.errorMessage} />
               <Button loading={this.state.submitButton} primary>Register Agency</Button>
             </Form>
           </Grid.Column>
@@ -239,13 +248,13 @@ class AgencyPortal extends Component{
                   value={this.state.userUIN}
                   onChange={event => this.setState({ userUIN: event.target.value})}
                    />
-                <Button loading={this.state.getDetailsButton} primary>Get User Details</Button>
+                <Button loading={this.state.getDetailsButton} primary>Get Member Details</Button>
               </Form.Field>
-              
+
             </Form>
             </Grid.Row>
             <Grid.Row>
-            <Message info header="User's Details" content={this.state.userDetails} />
+            <Message info hidden={this.state.userDetails==""} onDismiss={this.userDetailsDismiss} header="Member Details" content={this.state.userDetails} />
             </Grid.Row>
           </Grid.Column>
         </Grid.Row>

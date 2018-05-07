@@ -110,6 +110,14 @@ class MemberPortal extends Component{
     this.setState({authButton:false});
   }
 
+  authErrorMessageDismiss = () => {
+    this.setState({authErrorMessage: ""});
+  }
+
+  errorMessageDismiss = () => {
+    this.setState({errorMessage: ""});
+  }
+
   render(){
       return(
         <Layout activePage="MemberPortal">
@@ -265,7 +273,7 @@ class MemberPortal extends Component{
                   onChange={event => this.setState({ left_finger_5: event.target.value})}
                 />
               </Form.Field>
-              <Message error header="Oops!" content={this.state.errorMessage} />
+              <Message error header="Oops!" hidden={this.state.errorMessage==""} onDismiss={this.errorMessageDismiss} content={this.state.errorMessage} />
               <Button loading={this.state.submitButton} primary>Create ID</Button>
             </Form>
           </Grid.Column>
@@ -295,11 +303,11 @@ class MemberPortal extends Component{
                   onChange={event => this.setState({ location_fence: event.target.value})}
                 />
               </Form.Field>
-              <Message error header="Oops!" content={this.state.authErrorMessage} />
+              <Message error header="Oops!" hidden={this.state.authErrorMessage==""} onDismiss={this.authErrorMessageDismiss} content={this.state.authErrorMessage} />
               <Button loading={this.state.authButton} primary>Authenticate</Button>
             </Form>
             </Grid.Row>
-            
+
           </Grid.Column>
         </Grid.Row>
 
