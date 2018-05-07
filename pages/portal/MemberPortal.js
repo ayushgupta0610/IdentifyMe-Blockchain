@@ -299,9 +299,7 @@ class MemberPortal extends Component{
               <Button loading={this.state.authButton} primary>Authenticate</Button>
             </Form>
             </Grid.Row>
-            <Grid.Row>
-                To be decided
-            </Grid.Row>
+            
           </Grid.Column>
         </Grid.Row>
 

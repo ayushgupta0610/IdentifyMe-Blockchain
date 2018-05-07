@@ -26,6 +26,7 @@ class AgencyPortal extends Component{
       getDetailsMessage: '',
       getDetailsButton: false,
       userUIN: '',
+      userDetails: '',
       errorMessage: ''
   };
 
@@ -48,12 +49,92 @@ class AgencyPortal extends Component{
   getUserDetails = async(event) => {
     event.preventDefault();
     this.setState({getDetailsButton: true, getDetailsMessage: ''});
-    try {
       const accounts = await web3.eth.getAccounts();
-      const userDetails = {};
-      let user = await contract.methods.authID(web3.utils.fromAscii(this.state.userUIN)).call();
-    } catch(err){
+      // const { userDetails } = this.state;
+      debugger;
+      try {
+        let uin = await contract.methods.getIDUIN(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+        this.state.userDetails+="User's UIN: " + uin.ret_uin + "\n";
+        } catch(err){
+         this.setState({ getDetailsMessage: err.message });
+       }
+      try {
+        let name = await contract.methods.getIDName(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+        this.state.userDetails+="Name: " + name.ret_name + "\n";
+      } catch(err){
+       this.setState({ getDetailsMessage: err.message });
+      }
+      try {
+        let gender = await contract.methods.getIDGender(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+        this.state.userDetails+="Gender: " + gender.ret_gender + "\n";
+        } catch(err){
+         this.setState({ getDetailsMessage: err.message });
+       }
+       try {
+         let dob = await contract.methods.getIDdob(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+         this.state.userDetails+="Date of birth: " + dob.ret_dob + "\n";
+         } catch(err){
+          this.setState({ getDetailsMessage: err.message });
+        }
+      try {
+        let parentName = await contract.methods.getIDParentName(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+        this.state.userDetails+="Parent's Name: " + parentName.ret_parentName + "\n";
+        } catch(err){
+         this.setState({ getDetailsMessage: err.message });
+       }
+       try {
+         let personalAddress = await contract.methods.getIDaddress(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+         this.state.userDetails+="Personal Address: " + personalAddress.ret_personalAddress + "\n";
+         } catch(err){
+          this.setState({ getDetailsMessage: err.message });
+        }
+      try {
+        let mobile = await contract.methods.getIDmobile(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+        this.state.userDetails+="Mobile No.: " + mobile.ret_mobile + "\n";
+        } catch(err){
+         this.setState({ getDetailsMessage: err.message });
+      }
+       try {
+         let email = await contract.methods.getIDemail(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+         this.state.userDetails+="Email ID: " + email.ret_email + "\n";
+         } catch(err){
+          this.setState({ getDetailsMessage: err.message });
+        }
+      try {
+        let bioIRIS = await contract.methods.getBioIRIS(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+        this.state.userDetails+="Left Iris: " + bioIRIS.ret_iris_left  + "\n" + "Right Iris: " + bioIRIS.ret_iris_right + "\n";
+        } catch(err){
+         this.setState({ getDetailsMessage: err.message });
+       }
+     try {
+       let bioFace = await contract.methods.getBioFace(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+       this.state.userDetails+="Face: " + bioFace.ret_face + "\n";
+       } catch(err){
         this.setState({ getDetailsMessage: err.message });
+      }
+      try {
+        let bioRightFingers = await contract.methods.getBioRightFingers(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+        this.state.userDetails+="Right Hand Finger1: " + bioRightFingers.right_finger_1 + "\n" +
+                                "Right Hand Finger2: " + bioRightFingers.right_finger_2 + "\n" +
+                                "Right Hand Finger3: " + bioRightFingers.right_finger_3 + "\n" +
+                                "Right Hand Finger4: " + bioRightFingers.right_finger_4 + "\n" +
+                                "Right Hand Finger5: " + bioRightFingers.right_finger_5 + "\n";
+        } catch(err){
+         this.setState({ getDetailsMessage: err.message });
+       }
+     try {
+       let bioLeftFingers = await contract.methods.getBioLeftFingers(web3.utils.fromAscii(this.state.userUIN)).call({ from: accounts[0] });
+       this.state.userDetails+="Left Hand Finger1: " + bioLeftFingers.left_finger_1 + "\n" +
+                                "Left Hand Finger2: " + bioLeftFingers.left_finger_2 + "\n" +
+                                "Left Hand Finger3: " + bioLeftFingers.left_finger_3 + "\n" +
+                                "Left Hand Finger4: " + bioLeftFingers.left_finger_4 + "\n" +
+                                "Left Hand Finger5: " + bioLeftFingers.left_finger_5 + "\n";
+       } catch(err){
+        this.setState({ getDetailsMessage: err.message });
+      }
+    console.log(this.state.userDetails);
+    if(this.state.userDetails == ""){
+        this.setState({ userDetails: "You are not authorized to access ${this.state.userUIN}'s details." });
     }
     this.setState({getDetailsButton: false});
   }
@@ -152,17 +233,19 @@ class AgencyPortal extends Component{
           <h4>Get Member Details</h4>
             <Grid.Row>
             <Form onSubmit={this.getUserDetails} error={!!this.state.getDetailsMessage}>
-              <label>Enter the UIN of the member</label>
-              <Input style={{ width: "40%" }}
-                value={this.state.userUIN}
-                onChange={event => this.setState({ time_fence: event.target.value})}
-                 />
+              <Form.Field>
+                <label>Enter the UIN of the member</label>
+                <Input style={{ width: "40%" }}
+                  value={this.state.userUIN}
+                  onChange={event => this.setState({ userUIN: event.target.value})}
+                   />
                 <Button loading={this.state.getDetailsButton} primary>Get User Details</Button>
+              </Form.Field>
+              
             </Form>
-
             </Grid.Row>
             <Grid.Row>
-                To be decided
+            <Message info header="User's Details" content={this.state.userDetails} />
             </Grid.Row>
           </Grid.Column>
         </Grid.Row>

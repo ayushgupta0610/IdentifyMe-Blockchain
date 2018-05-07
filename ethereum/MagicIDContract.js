@@ -7,5 +7,7 @@ const instance = new web3.eth.Contract(
   '0x651855667cbbffbf6e148e8ab17c5a71cd31466d'
 );
 
+// const instance = new web3.eth.contract(magicID.interface).at('0x651855667cbbffbf6e148e8ab17c5a71cd31466d');
+
 // The above instance is for Kovan
 export default instance;
