@@ -4,7 +4,7 @@ import magicID from './ContractABI.json';
 
 const instance = new web3.eth.Contract(
    magicID.interface,
-  '0x3ce16a2d8ff0b966e48f5d643d0adcfac79485af'
+  '0xede744f30c8518768594545c1c8acddab4b39afd'
 );
 
 // const instance = new web3.eth.contract(magicID.interface).at('0x651855667cbbffbf6e148e8ab17c5a71cd31466d');
