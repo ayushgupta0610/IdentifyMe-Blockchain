@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Card, Button, Form, Input, Message, Grid } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
-import { Link } from '.././routes';
+import { Link } from '../../routes';
 import contract from '../../ethereum/MagicIDContract';
 import web3 from '../../ethereum/web3';
 
